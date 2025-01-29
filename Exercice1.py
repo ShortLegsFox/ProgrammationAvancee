@@ -16,28 +16,6 @@ def test1(n):
     return bas, nmbre_essais, nbr_morts
 
 
-# def test2(n, k):
-#     pas = n // k
-#     nmbre_essais = 0
-#     dernier_sain = 0
-#     assiette_tester = []
-    
-#     for i in range(pas, n + 1, pas):
-#         print(f"Test à {i} assiettes...")
-#         nmbre_essais += 1
-#         assiette_tester.append(i)
-#         if not tester_repas(i): 
-#             break
-#         dernier_sain = i  
-    
-#     for j in range(dernier_sain + 1, i):
-#         nmbre_essais += 1
-#         assiette_tester.append(j)
-#         print(f"Test précis à {j} assiettes...")
-#         if not tester_repas(j):
-#             return j, nmbre_essais, assiette_tester
-    
-#     return n + 1, nmbre_essais, assiette_tester
 
 
 def test2(n, k):
