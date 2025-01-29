@@ -24,18 +24,19 @@ def initTaquin(nf):
     return jeu, ref
 
 # Chercher la position d'une valeur dans le jeu
-def chercher(val, ref) :
-	for i in range(len(ref)) :
-		if val in ref[i] : return i, ref[i].index(val)
+def chercher(val, ref):
+    for i in range(len(ref)):
+        if val in ref[i]:
+            return i, ref[i].index(val)
 
 def valJeu(jeu, ref): # Somme des distances entre le jeu et la référence
-	sommedist=0
-	for i in range(len(jeu)):
-		for j in range(len(jeu[i])):
-			if (jeu[i][j] != ref[i][j]):
-				y, x  = chercher(jeu[i][j], ref)
-				sommedist += abs(y-i) + abs(x-j)
-	return sommedist
+    sommedist = 0
+    for i in range(len(jeu)):
+        for j in range(len(jeu[i])):
+            if jeu[i][j] != ref[i][j]:
+                y, x = chercher(jeu[i][j], ref)
+                sommedist += abs(y - i) + abs(x - j)
+    return sommedist
 
 # Recupérer les mouvements possibles à partir du trou
 def coups_possibles(jeu):
@@ -46,7 +47,7 @@ def coups_possibles(jeu):
     right = (1, 0)
     up = (0, -1)
     down = (0, 1)
-    
+
     directions = [left, right, up, down]
     for x, y in directions:
         next_mt, next_nt = mt + x, nt + y # On se déplace dans les directions possibles
@@ -55,7 +56,7 @@ def coups_possibles(jeu):
             next_step = copy.deepcopy(jeu)
             next_step[mt][nt], next_step[next_mt][next_nt] = next_step[next_mt][next_nt], next_step[mt][nt]
             moves.append(next_step) # Donc mouvement possible, on l'ajoute dans la liste
-    
+
     return moves
 
 # Rechercher le plus court chemin
@@ -76,18 +77,18 @@ def jouer(jeu, ref):
             new_path = path + [move]
             open_set.append((valJeu(move, ref) + coups + 1, coups + 1, move, new_path))
 
-    return None
+    return []
 
 def main():
     nbEssais = 0
-    jeu, ref = initTaquin("taquin4-2.txt")
+    jeu, ref = initTaquin("taquin_data/taquin4.txt")
 
     print("Jeu initial:")
     afficheJeu(jeu)
 
     solution = jouer(jeu, ref)
 
-    if solution is not None:
+    if solution:
         for step in solution:
             nbEssais += 1
             print("Etape", nbEssais)
