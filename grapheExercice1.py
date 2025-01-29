@@ -32,7 +32,7 @@ def test2(n, k):
     nbr_morts += 1
     
     gauche, droite = max(seuil - pas, 1), min(seuil, n)
-    while gauche < droite and nbr_essaies < k:
+    while gauche < droite:
         milieu = (gauche + droite) // 2
         nbr_essaies += 1
         print(f"Test {nbr_essaies}: {milieu} assiettes...")
