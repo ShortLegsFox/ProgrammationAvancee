@@ -10,13 +10,13 @@ def store_memoizable(v, x, operator):
     global memoizable_stored
     global mem_cpt
 
-    calc = calculation(v, x, operator)
     expression = f'{v}{operator}{x}'
 
     if expression in memoizable_stored.keys():
         mem_cpt += 1
         return memoizable_stored[expression]
     else:
+        calc = calculation(v, x, operator)
         memoizable_stored[expression] = calc
         return calc
 
