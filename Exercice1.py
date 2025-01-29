@@ -35,11 +35,12 @@ def test2(n, k):
     
     nbr_morts += 1
     
-    gauche, droite = max(seuil - pas, 1), min(seuil, n)
-    while gauche < droite and nbr_essaies < k:
+    gauche, droite = max(seuil - pas, 1), min(seuil, n) 
+    print(f"gauche = {gauche}, droite = {droite}")
+    
+    while gauche < droite :
         milieu = (gauche + droite) // 2
         nbr_essaies += 1
-        print(f"Test {nbr_essaies}: {milieu} assiettes...")
 
         if tester_repas(milieu):
             print(f"{milieu} assiettes -> OK, on monte...")
@@ -82,17 +83,17 @@ def test3(n):
 
 
 def tester_repas(x):
-    MORT = 64
+    MORT = 14
     return x < MORT 
 
-n = 100
+n = 40
 
 
 # k = 110 
 # print(test1(n))
-# k = 5 
-# print(test2(n, k))
-k = 2
-print(test3(n))
+k = 5
+print(test2(n, k))
+# k = 2
+# print(test3(n))
 
 
