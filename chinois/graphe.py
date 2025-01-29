@@ -15,22 +15,37 @@ def test1(n):
     return nmbre_essais
 
 def test2(n, k):
-    pas = n // k
-    nmbre_essais = 0
-    dernier_sain = 0
+    pas = max(1, n // (2 * k - 1))  
+    seuil = pas
+    nbr_essaies = 0
+    nbr_morts = 0
+    print(f"\n--- Début du test2 avec n={n}, k={k} ---")
+
+    # **1ère phase : Recherche par pas**
+    while seuil <= n and tester_repas(seuil):
+        print(f"Test {nbr_essaies+1}: {seuil} assiettes -> OK")
+        seuil += pas
+        nbr_essaies += 1
+
+    print(f"Début de la recherche dichotomique entre {max(seuil - pas, 1)} et {min(seuil, n)}")
     
-    for i in range(pas, n + 1, pas):
-        nmbre_essais += 1
-        if not tester_repas(i): 
-            break
-        dernier_sain = i  
+    nbr_morts += 1
     
-    for j in range(dernier_sain + 1, i):
-        nmbre_essais += 1
-        if not tester_repas(j):
-            return nmbre_essais
-    
-    return nmbre_essais
+    gauche, droite = max(seuil - pas, 1), min(seuil, n)
+    while gauche < droite and nbr_essaies < k:
+        milieu = (gauche + droite) // 2
+        nbr_essaies += 1
+        print(f"Test {nbr_essaies}: {milieu} assiettes...")
+
+        if tester_repas(milieu):
+            print(f"{milieu} assiettes -> OK, on monte...")
+            gauche = milieu + 1
+        else:
+            print(f"{milieu} assiettes -> Échec, on descend...")
+            droite = milieu
+            nbr_morts += 1
+
+    return nbr_essaies
 
 def test3(n):
     pas = int(math.sqrt(n))
