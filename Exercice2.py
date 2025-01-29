@@ -55,7 +55,7 @@ def coups_possibles(jeu):
         if 0 <= next_mt < dim and 0 <= next_nt < dim: # Si la case est dans le jeu (pour éviter de sortir du board)
             next_step = copy.deepcopy(jeu)
             next_step[mt][nt], next_step[next_mt][next_nt] = next_step[next_mt][next_nt], next_step[mt][nt]
-            moves.append(next_step) # Donc mouvement possible, on l'ajoute dans la liste
+            moves.append(next_step) # Mouvement possible, on l'ajoute dans la liste
 
     return moves
 
@@ -76,9 +76,8 @@ def jouer(jeu, ref):
         for move in coups_possibles(current):
             new_path = path + [move]
             open_set.append((valJeu(move, ref) + coups + 1, coups + 1, move, new_path))
-            print(valJeu(move, ref))
 
-    return []
+    return None
 
 def main():
     nbEssais = 0
@@ -89,12 +88,14 @@ def main():
 
     solution = jouer(jeu, ref)
 
-    for step in solution:
-        nbEssais += 1
-        print("Etape", nbEssais)
-        afficheJeu(step)
+    if solution:
+        for step in solution:
+            nbEssais += 1
+            print("Etape", nbEssais)
+            afficheJeu(step)
 
-    print("Total coups :", nbEssais)
-
+        print("Total coups :", nbEssais)
+    else:
+        print("Aucune solution trouvée.")
 
 main()
