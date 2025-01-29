@@ -59,13 +59,13 @@ def coups_possibles(jeu):
 
     return moves
 
-def is_solvable(jeu):
-    inversions = 0
-    for i in range(len(jeu)):
-        for j in range(i + 1, len(jeu)):
-            if jeu[i] > jeu[j]:
-                inversions += 1
-    return inversions % 2 == 0
+# def is_solvable(jeu):
+#     # inversions = 0
+#     # for i in range(len(jeu)):
+#     #     for j in range(i + 1, len(jeu)):
+#     #         if jeu[i] > jeu[j]:
+#     #             inversions += 1
+#     # return inversions % 2 == 0
 
 
 # Rechercher le plus court chemin
@@ -90,14 +90,14 @@ def jouer(jeu, ref):
 
 def main():
     nbEssais = 0
-    jeu, ref = initTaquin("taquin_data/taquin4-2.txt")
+    jeu, ref = initTaquin("taquin_data/taquin4.txt")
 
     print("Jeu initial:")
     afficheJeu(jeu)
 
-    if not is_solvable(jeu):
-        print("Pas de solution")
-        exit(1)
+    # if not is_solvable(jeu):
+    #     print("Pas de solution")
+    #     exit(1)
 
     solution = jouer(jeu, ref)
 
