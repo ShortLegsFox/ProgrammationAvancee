@@ -59,15 +59,6 @@ def coups_possibles(jeu):
 
     return moves
 
-# def is_solvable(jeu):
-#     # inversions = 0
-#     # for i in range(len(jeu)):
-#     #     for j in range(i + 1, len(jeu)):
-#     #         if jeu[i] > jeu[j]:
-#     #             inversions += 1
-#     # return inversions % 2 == 0
-
-
 # Rechercher le plus court chemin
 def jouer(jeu, ref):
     heuristic = valJeu(jeu, ref) # Initialisation de l'heuristique
@@ -85,6 +76,7 @@ def jouer(jeu, ref):
         for move in coups_possibles(current):
             new_path = path + [move]
             open_set.append((valJeu(move, ref) + coups + 1, coups + 1, move, new_path))
+            print(valJeu(move, ref))
 
     return []
 
@@ -94,10 +86,6 @@ def main():
 
     print("Jeu initial:")
     afficheJeu(jeu)
-
-    # if not is_solvable(jeu):
-    #     print("Pas de solution")
-    #     exit(1)
 
     solution = jouer(jeu, ref)
 
