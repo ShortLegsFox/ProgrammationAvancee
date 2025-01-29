@@ -8,19 +8,6 @@ memoizable_stored = {}
 memoizable_stored_new = {}
 
 
-def store_memoizable(v, x, operator):
-    global memoizable_stored
-    global mem_cpt
-
-    expression = f'{v}{operator}{x}'
-
-    if expression in memoizable_stored.keys():
-        mem_cpt += 1
-        return memoizable_stored[expression]
-    else:
-        calc = calculation(v, x, operator)
-        memoizable_stored[expression] = calc
-        return calc
 
 
 def store_memoizable_new(target, values):
@@ -34,18 +21,6 @@ def store_memoizable_new(target, values):
         memoizable_stored_new[key] = trouveExpr(target, values)
 
     return memoizable_stored_new[key]
-
-
-def calculation(v, x, operator):
-    if operator == '+':
-        return v+x
-    elif operator == '-':
-        return v-x
-    elif operator == '/':
-        return v // x
-    elif operator == '*':
-        return v * x
-    return 0
 
 
 def trouveExpr(v, valeurs):
