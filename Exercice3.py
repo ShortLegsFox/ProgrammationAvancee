@@ -3,7 +3,9 @@ import random
 cpt = 0
 
 mem_cpt = 0
+mem_cpt_new = 0
 memoizable_stored = {}
+memoizable_stored_new = {}
 
 
 def store_memoizable(v, x, operator):
@@ -21,6 +23,19 @@ def store_memoizable(v, x, operator):
         return calc
 
 
+def store_memoizable_new(target, values):
+    global memoizable_stored_new
+    global mem_cpt_new
+
+    key = (target, tuple(sorted(values)))
+    if key in memoizable_stored_new.keys():
+        mem_cpt_new += 1
+    else:
+        memoizable_stored_new[key] = trouveExpr(target, values)
+
+    return memoizable_stored_new[key]
+
+
 def calculation(v, x, operator):
     if operator == '+':
         return v+x
@@ -35,7 +50,7 @@ def calculation(v, x, operator):
 
 def trouveExpr(v, valeurs):
     global cpt
-    global memoizable_stored
+    global memoizable_stored_new
     cpt += 1
 
     if len(valeurs) == 1:
@@ -53,32 +68,26 @@ def trouveExpr(v, valeurs):
                 valeurs2 = valeurs[:]
                 valeurs2.remove(x)
 
-                op = store_memoizable(v, x, operateurs[0])
-                (t, ch) = trouveExpr(op, valeurs2)
+                (t, ch) = store_memoizable_new(v+x, valeurs2)
                 if t: return (t, ch + " - " + str(x))
 
                 if (v >= x):
-                    op = store_memoizable(v, x, operateurs[1])
-                    (t, ch) = trouveExpr(op, valeurs2)
+                    (t, ch) = store_memoizable_new(v-x, valeurs2)
                     if t: return (t, str(x) + " + (" + ch + ") ")
 
                 if (v <= x):
-                    op = store_memoizable(x, v, operateurs[1])
-                    (t, ch) = trouveExpr(op, valeurs2)
+                    (t, ch) = store_memoizable_new(x-v, valeurs2)
                     if t: return (t, str(x) + " + (" + ch + ") ")
 
                 if (v >= x) and v % x == 0:
-                    op = store_memoizable(v, x, operateurs[3])
-                    (t, ch) = trouveExpr(op, valeurs2)
+                    (t, ch) = store_memoizable_new(v//x, valeurs2)
                     if t: return (t, "(" + ch + ") * " + str(x))
 
                 if (v <= x) and x % v == 0:
-                    op = store_memoizable(x, v, operateurs[3])
-                    (t, ch) = trouveExpr(op, valeurs2)
+                    (t, ch) = store_memoizable_new(x//v, valeurs2)
                     if t: return (t, str(x) + " / (" + ch + ") ")
 
-                op = store_memoizable(v, x, operateurs[2])
-                (t, ch) = trouveExpr(op, valeurs2)
+                (t, ch) = store_memoizable_new(v*x, valeurs2)
                 if t: return (t, "(" + ch + ") / " + str(x))
 
             return (False, "")
@@ -93,8 +102,12 @@ for i in range(NBNOMBRES):
     nombres.append(operandes[random.randint(0, len(operandes) - 1)])
 cible = random.randint(100, 999)
 
+cible = 799
+nombres = [4, 8, 5, 6, 6, 2]
+
 res = trouveExpr(cible, nombres)
 print(cible, nombres, res, cpt)
+print(mem_cpt_new)
 if (res[0] == False):
     for i in range(cible):
         print("écart", i)
@@ -107,4 +120,5 @@ if (res[0] == False):
             print(cible, cible - i, nombres, res, cpt)
             break
 
-print(f'Total memoizable calculation {round((mem_cpt / cpt) * 100)} % (total {mem_cpt})')
+print(f'Total memoizable calculation {round((mem_cpt_new / cpt) * 100)} % (total {mem_cpt_new})')
+print(f'Total calculation optimized {cpt-mem_cpt_new}')
