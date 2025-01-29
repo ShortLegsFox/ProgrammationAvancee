@@ -59,6 +59,15 @@ def coups_possibles(jeu):
 
     return moves
 
+def is_solvable(jeu):
+    inversions = 0
+    for i in range(len(jeu)):
+        for j in range(i + 1, len(jeu)):
+            if jeu[i] > jeu[j]:
+                inversions += 1
+    return inversions % 2 == 0
+
+
 # Rechercher le plus court chemin
 def jouer(jeu, ref):
     heuristic = valJeu(jeu, ref) # Initialisation de l'heuristique
@@ -81,24 +90,23 @@ def jouer(jeu, ref):
 
 def main():
     nbEssais = 0
-    jeu, ref = initTaquin("taquin_data/taquin4.txt")
+    jeu, ref = initTaquin("taquin_data/taquin4-2.txt")
 
     print("Jeu initial:")
     afficheJeu(jeu)
 
-    solution = jouer(jeu, ref)
-
-    if solution:
-        for step in solution:
-            nbEssais += 1
-            print("Etape", nbEssais)
-            afficheJeu(step)
-
-        print("Total coups :", nbEssais)
-
-    else:
+    if not is_solvable(jeu):
         print("Pas de solution")
         exit(1)
+
+    solution = jouer(jeu, ref)
+
+    for step in solution:
+        nbEssais += 1
+        print("Etape", nbEssais)
+        afficheJeu(step)
+
+    print("Total coups :", nbEssais)
 
 
 main()
